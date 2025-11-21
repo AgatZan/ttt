@@ -1,0 +1,31 @@
+name: Test
+
+on: push
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+    env:
+      GH_REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: Test
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y neovim
+          nvim --version
+      - name: Create directory and test.lua
+        run: |
+          mkdir -p "#test"
+          echo 'print("Hello, World!")' > "#test/test.lua"
+          ls -la "#test"
+          cat "#test/test.lua"
+      - name: Run Neovim sourcing test.lua and exit
+        run: |
+          # Run nvim headless and source the file, then quit
+          nvim --headless +'source #test/test.lua' +qa
