@@ -23,9 +23,13 @@ jobs:
         run: |
           mkdir -p "#test"
           echo 'print("Hello, World!")' > "#test/test.lua"
+          mkdir -p "test"
+          echo 'print("Hello, World!")' > "test/test.lua"
           ls -la "#test"
           cat "#test/test.lua"
+          ls -la "test"
+          cat "test/test.lua"
       - name: Run Neovim sourcing test.lua and exit
         run: |
-          # Run nvim headless and source the file, then quit
+          nvim --headless +'source test/test.lua' +qa
           nvim --headless +'source #test/test.lua' +qa
