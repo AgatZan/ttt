@@ -21,12 +21,22 @@ jobs:
           nvim --version
       - name: Create directory and test.lua
         run: |
-          mkdir -p "#test"
-          echo 'print("Hello, World!")' > "#test/test.lua"
           mkdir -p "test"
-          echo 'print("Hello, World!")' > "test/test.lua"
-          ls -la "#test"
-          cat "#test/test.lua"
+          echo 'local function a()' >> "test/test.lua"
+          echo  'local co = coroutine.running()' >> "test/test.lua"
+          echo 'print("3")' >> "test/test.lua"
+          echo 'vim.schedule(function ()' >> "test/test.lua"
+          echo 'local str = "4"' >> "test/test.lua"
+          echo 'coroutine.resume(co, 1)' >> "test/test.lua"
+          echo 'print(str .. "5")' >> "test/test.lua"
+          echo 'end)' >> "test/test.lua"
+          echo 'print("6")' >> "test/test.lua"
+          echo 'return coroutine.yield()' >> "test/test.lua"
+          echo 'end' >> "test/test.lua"
+          echo 'print("1")' >> "test/test.lua"
+          echo 'print(coroutine.wrap(a)(), "243")' >> "test/test.lua"
+          echo 'print("2")' >> "test/test.lua"
+          echo 'end)' >> "test/test.lua"
           ls -la "test"
           cat "test/test.lua"
       - name: Run Neovim sourcing test.lua and exit
