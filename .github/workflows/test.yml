@@ -36,13 +36,9 @@ jobs:
           echo 'print("1")' >> "test/test.lua"
           echo 'print(coroutine.wrap(a)(), "243")' >> "test/test.lua"
           echo 'print("2")' >> "test/test.lua"
-          echo 'end)' >> "test/test.lua"
           ls -la "test"
           cat "test/test.lua"
       - name: Run Neovim sourcing test.lua and exit
         run: |
           nvim --headless +'source test/test.lua' +qa
           echo 'Done'
-      - name: Run Neovim sourcing test.lua and exit
-        run: |
-          nvim --headless +'source #test/test.lua' +qa
